@@ -1,33 +1,18 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Users,
-  BarChart3,
-  FileText,
-  Settings,
-  LogOut,
-} from "lucide-react";
-import toast from "react-hot-toast";
-
-const NAV_ITEMS = [
-  { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard", end: true },
-  { label: "Users Management", icon: Users, path: "/dashboard/users", end: false },
-  { label: "Reports", icon: BarChart3, path: "/dashboard/reports", end: false },
-  { label: "Documents", icon: FileText, path: "/dashboard/documents", end: false },
-  { label: "Settings", icon: Settings, path: "/dashboard/settings", end: false },
-];
+import { LogOut } from "lucide-react";
+import { ROLE_MENU } from "../constants/rbac";
 
 interface SidebarProps {
   collapsed: boolean;
 }
 
 const Sidebar = ({ collapsed }: SidebarProps) => {
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const items = user ? ROLE_MENU[user.role] : [];
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    toast.success("Logged out successfully.");
+    logout();
     navigate("/login");
   };
 
@@ -86,10 +71,10 @@ const Sidebar = ({ collapsed }: SidebarProps) => {
           }}
         >
           <p style={{ color: "var(--foreground)", fontWeight: 700, fontSize: 17, fontFamily: "Roboto", margin: 0 }}>
-            Dirar
+            Hotel RBAC
           </p>
           <p style={{ color: "#9ca3af", fontSize: 11, fontFamily: "Open Sans", margin: 0 }}>
-            Admin Panel
+            MVP Admin Panel
           </p>
         </div>
       </div>
@@ -117,11 +102,11 @@ const Sidebar = ({ collapsed }: SidebarProps) => {
           </p>
         )}
 
-        {NAV_ITEMS.map(({ label, icon: Icon, path, end }) => (
+        {items.map(({ label, icon: Icon, path }) => (
           <NavLink
             key={path}
             to={path}
-            end={end}
+            end={path === "/dashboard"}
             title={collapsed ? label : undefined}
             style={({ isActive }) => ({
               display: "flex",

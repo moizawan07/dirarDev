@@ -21,11 +21,33 @@
 @layer base {
   body {
     @apply font-body;
+    margin: 0;
+    background: #f8fafc;
   }
   input,
   textarea,
   select {
     outline: none;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+  }
+  button {
+    border: none;
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  table th,
+  table td {
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px 6px;
+    font-size: 14px;
   }
   h1,
   h2,

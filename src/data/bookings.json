@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "customer_name": "Amir Khan",
+    "hotel_name": "Marina Grand Hotel",
+    "room_type": "Deluxe Room",
+    "booking_date": "2026-05-01",
+    "checkin_date": "2026-05-10",
+    "checkout_date": "2026-05-13",
+    "total_amount": 1650,
+    "status": "completed",
+    "branch": "Dubai Marina",
+    "location": "Marina Tower",
+    "created_by_user_id": 2
+  },
+  {
+    "id": 2,
+    "customer_name": "Sara Noor",
+    "hotel_name": "Downtown Plaza",
+    "room_type": "Suite Room",
+    "booking_date": "2026-05-02",
+    "checkin_date": "2026-05-15",
+    "checkout_date": "2026-05-18",
+    "total_amount": 2940,
+    "status": "pending",
+    "branch": "Head Office",
+    "location": "Dubai Downtown",
+    "created_by_user_id": 1
+  },
+  {
+    "id": 3,
+    "customer_name": "Lina Omar",
+    "hotel_name": "Barsha Skyline Hotel",
+    "room_type": "Room Booking",
+    "booking_date": "2026-05-03",
+    "checkin_date": "2026-05-12",
+    "checkout_date": "2026-05-14",
+    "total_amount": 700,
+    "status": "completed",
+    "branch": "Al Barsha",
+    "location": "Barsha Heights",
+    "created_by_user_id": 4
+  }
+]

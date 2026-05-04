@@ -8,7 +8,7 @@ interface TopbarProps {
 }
 
 const Topbar = ({ pageTitle, collapsed, onToggleSidebar }: TopbarProps) => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const { user } = useAuth();
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [showNotif, setShowNotif] = useState(false);
@@ -254,7 +254,7 @@ const Topbar = ({ pageTitle, collapsed, onToggleSidebar }: TopbarProps) => {
             {user?.name || "Admin"}
           </p>
           <p style={{ fontFamily: "Open Sans", fontSize: 11, margin: 0, color: "#9ca3af" }}>
-            {user?.role || "Administrator"}
+            {(user?.role || "administrator").replace("_", " ")}
           </p>
         </div>
       </div>

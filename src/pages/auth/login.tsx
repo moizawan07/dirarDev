@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import toast from "react-hot-toast";
-import { loginApi } from "../../services/authApi";
+import { useAuth } from "../../context/useAuth";
 
-// ─── Dummy credentials (remove once real API is ready) ───────────────────────
-const DUMMY_EMAIL = "admin@gmail.com";
-const DUMMY_PASSWORD = "123456";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -23,34 +21,15 @@ const Login = () => {
       return;
     }
 
-    // ── Dummy login check ─────────────────────────────────────────────────
-    if (email === DUMMY_EMAIL && password === DUMMY_PASSWORD) {
-      localStorage.setItem("token", "dummy-token-123");
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name: "Admin", email: DUMMY_EMAIL, role: "admin" })
-      );
-      toast.success("Welcome back, Admin! 👋");
-      navigate("/dashboard");
-      return;
-    }
-
-    // ── Real API call (activate when backend is ready) ────────────────────
     setLoading(true);
-    try {
-      const { data } = await loginApi({ email, password });
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      toast.success(data.message || "Logged in successfully!");
+    const ok = login(email);
+    if (ok) {
+      toast.success("Login successful");
       navigate("/dashboard");
-    } catch (err: unknown) {
-      const message =
-        (err as { response?: { data?: { message?: string } } })?.response?.data
-          ?.message || "Invalid credentials. Please try again.";
-      toast.error(message);
-    } finally {
-      setLoading(false);
+    } else {
+      toast.error("Use superadmin@gmail.com, admin@gmail.com, or accountant@gmail.com");
     }
+    setLoading(false);
   };
 
   return (
@@ -176,7 +155,6 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Forgot password link */}
             <div className="flex justify-end">
               <Link
                 to="/forgot-password"
@@ -187,7 +165,6 @@ const Login = () => {
               </Link>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -230,10 +207,9 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Hint */}
           <p className="text-center text-xs mt-6" style={{ color: "#9ca3af" }}>
-            Demo: <span className="font-semibold">admin@gmail.com</span> /{" "}
-            <span className="font-semibold">123456</span>
+            Demo emails: superadmin@gmail.com, admin@gmail.com, accountant@gmail.com.
+            Password can be any value for MVP.
           </p>
         </div>
       </div>

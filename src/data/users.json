@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Super Admin",
+    "email": "superadmin@gmail.com",
+    "role": "super_admin",
+    "branch": "Head Office",
+    "location": "Dubai Downtown"
+  },
+  {
+    "id": 2,
+    "name": "Branch Admin",
+    "email": "admin@gmail.com",
+    "role": "admin",
+    "branch": "Dubai Marina",
+    "location": "Marina Tower"
+  },
+  {
+    "id": 3,
+    "name": "Accountant User",
+    "email": "accountant@gmail.com",
+    "role": "accountant",
+    "branch": "Dubai Marina",
+    "location": "Marina Tower"
+  },
+  {
+    "id": 4,
+    "name": "Accountant East",
+    "email": "east.accountant@gmail.com",
+    "role": "accountant",
+    "branch": "Al Barsha",
+    "location": "Barsha Heights"
+  }
+]

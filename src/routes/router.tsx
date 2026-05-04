@@ -1,106 +1,59 @@
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import type { ReactNode } from "react";
+import type { Role } from "../types";
+import DashboardLayout from "../layouts/DashboardLayout";
 import Login from "../pages/auth/login";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
-import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardHome from "../pages/dashboard/DashboardHome";
 import UsersPage from "../pages/dashboard/UsersPage";
+import ServicesPage from "../pages/dashboard/ServicesPage";
+import BookingsPage from "../pages/dashboard/BookingsPage";
+import LocationsPage from "../pages/dashboard/LocationsPage";
+import StatisticsPage from "../pages/dashboard/StatisticsPage";
 
-// ─── Auth Guard ───────────────────────────────────────────────────────────────
-// Protects routes that require authentication.
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const token = localStorage.getItem("token");
-  return token ? <>{children}</> : <Navigate to="/login" replace />;
+const ProtectedRoute = ({
+  children,
+  allowedRoles,
+}: {
+  children: ReactNode;
+  allowedRoles?: Role[];
+}) => {
+  const { isAuthenticated, user } = useAuth();
+  if (!isAuthenticated || !user) return <Navigate to="/login" replace />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) return <Navigate to="/dashboard" replace />;
+  return <>{children}</>;
 };
 
-// ─── Guest Guard ──────────────────────────────────────────────────────────────
-// Redirects already-authenticated users away from auth pages.
-const GuestRoute = ({ children }: { children: React.ReactNode }) => {
-  const token = localStorage.getItem("token");
-  return token ? <Navigate to="/dashboard" replace /> : <>{children}</>;
+const GuestRoute = ({ children }: { children: ReactNode }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
 };
-
-// ─── Router ───────────────────────────────────────────────────────────────────
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/login" replace />,
-  },
-  {
-    path: "/login",
-    element: (
-      <GuestRoute>
-        <Login />
-      </GuestRoute>
-    ),
-  },
-  {
-    path: "/forgot-password",
-    element: (
-      <GuestRoute>
-        <ForgotPassword />
-      </GuestRoute>
-    ),
-  },
-  {
-    path: "/reset-password",
-    element: (
-      <GuestRoute>
-        <ResetPassword />
-      </GuestRoute>
-    ),
-  },
-  {
-    // DashboardLayout renders <Outlet /> — React Router injects the matched
-    // child route into that slot automatically. Do NOT pass children as JSX.
-    path: "/dashboard",
-    element: (
-      <ProtectedRoute>
-        <DashboardLayout />
-      </ProtectedRoute>
-    ),
-    children: [
-      { index: true, element: <DashboardHome /> },
-      { path: "users", element: <UsersPage /> },
-      // Add more pages here as you build them:
-      // { path: "reports",   element: <ReportsPage />   },
-      // { path: "documents", element: <DocumentsPage /> },
-      // { path: "settings",  element: <SettingsPage />  },
-    ],
-  },
-]);
 
 const AppRouter = () => {
+  const router = createBrowserRouter([
+    { path: "/", element: <Navigate to="/login" replace /> },
+    { path: "/login", element: <GuestRoute><Login /></GuestRoute> },
+    { path: "/forgot-password", element: <GuestRoute><ForgotPassword /></GuestRoute> },
+    { path: "/reset-password", element: <GuestRoute><ResetPassword /></GuestRoute> },
+    {
+      path: "/dashboard",
+      element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
+      children: [
+        { index: true, element: <DashboardHome /> },
+        { path: "users", element: <ProtectedRoute allowedRoles={["super_admin", "admin"]}><UsersPage /></ProtectedRoute> },
+        { path: "services", element: <ProtectedRoute allowedRoles={["super_admin"]}><ServicesPage /></ProtectedRoute> },
+        { path: "bookings", element: <BookingsPage /> },
+        { path: "locations", element: <ProtectedRoute allowedRoles={["super_admin", "admin"]}><LocationsPage /></ProtectedRoute> },
+        { path: "statistics", element: <ProtectedRoute allowedRoles={["super_admin"]}><StatisticsPage /></ProtectedRoute> },
+      ],
+    },
+  ]);
+
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3500,
-          style: {
-            background: "#fff",
-            color: "#111827",
-            border: "1px solid rgba(20, 71, 230, 0.15)",
-            borderRadius: "12px",
-            fontFamily: "'Open Sans', sans-serif",
-            fontSize: "14px",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-          },
-          success: {
-            iconTheme: {
-              primary: "#89c441",
-              secondary: "#fff",
-            },
-          },
-          error: {
-            iconTheme: {
-              primary: "#ef4444",
-              secondary: "#fff",
-            },
-          },
-        }}
-      />
+      <Toaster position="top-right" />
       <RouterProvider router={router} />
     </>
   );

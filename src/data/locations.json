@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "user_id": 2,
+    "assigned_location": "Marina Tower",
+    "branch": "Dubai Marina"
+  },
+  {
+    "id": 2,
+    "user_id": 3,
+    "assigned_location": "Marina Tower",
+    "branch": "Dubai Marina"
+  },
+  {
+    "id": 3,
+    "user_id": 4,
+    "assigned_location": "Barsha Heights",
+    "branch": "Al Barsha"
+  }
+]
