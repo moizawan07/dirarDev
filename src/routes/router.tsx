@@ -19,6 +19,7 @@ import ServiceManagement from '../pages/ServiceManagement';
 import BookingManagement from '../pages/BookingManagement';
 import LocationManagement from '../pages/LocationManagement';
 import Statistics from '../pages/Statistics';
+import Login from '../pages/auth/login';
 
 const AppRouter: React.FC = () => {
   const { isAuthenticated, getUserRole } = useAuth();
@@ -69,7 +70,7 @@ const AppRouter: React.FC = () => {
       />
       <Routes>
         {/* Auth Routes */}
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<Login />} />
 
         {/* Dashboard Routes */}
         <Route

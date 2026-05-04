@@ -2,16 +2,14 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import toast from "react-hot-toast";
-import { loginApi } from "../../services/authApi";
-
-// ─── Dummy credentials (remove once real API is ready) ───────────────────────
-const DUMMY_EMAIL = "admin@gmail.com";
-const DUMMY_PASSWORD = "123456";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { login } = useAuth();
+
+  const [email, setEmail] = useState("superadmin@gmail.com");
+  const [password, setPassword] = useState("password");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -23,31 +21,25 @@ const Login = () => {
       return;
     }
 
-    // ── Dummy login check ─────────────────────────────────────────────────
-    if (email === DUMMY_EMAIL && password === DUMMY_PASSWORD) {
-      localStorage.setItem("token", "dummy-token-123");
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name: "Admin", email: DUMMY_EMAIL, role: "admin" })
-      );
-      toast.success("Welcome back, Admin! 👋");
-      navigate("/dashboard");
-      return;
-    }
-
-    // ── Real API call (activate when backend is ready) ────────────────────
     setLoading(true);
+
     try {
-      const { data } = await loginApi({ email, password });
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      toast.success(data.message || "Logged in successfully!");
-      navigate("/dashboard");
-    } catch (err: unknown) {
-      const message =
-        (err as { response?: { data?: { message?: string } } })?.response?.data
-          ?.message || "Invalid credentials. Please try again.";
-      toast.error(message);
+      // Context based login (RBAC roles handled inside AuthContext)
+      const success = login(email, password);
+
+      if (success) {
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+        toast.success(
+          `Welcome back, ${user?.name || user?.role || "User"} 👋`
+        );
+
+        navigate("/dashboard");
+      } else {
+        toast.error("Invalid email or password");
+      }
+    } catch (error) {
+      toast.error("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -82,12 +74,14 @@ const Login = () => {
             >
               <LogIn className="text-white" size={26} />
             </div>
+
             <h1
               className="font-heading text-2xl font-bold"
               style={{ color: "var(--foreground)" }}
             >
               Welcome Back
             </h1>
+
             <p className="text-sm mt-1" style={{ color: "#6b7280" }}>
               Sign in to your account to continue
             </p>
@@ -103,19 +97,22 @@ const Login = () => {
               >
                 Email Address
               </label>
+
               <div className="relative">
                 <Mail
                   size={18}
                   className="absolute left-3.5 top-1/2 -translate-y-1/2"
                   style={{ color: "var(--primary)" }}
                 />
+
                 <input
                   id="email"
                   type="email"
-                  placeholder="admin@gmail.com"
+                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border text-sm transition-all duration-200 font-body focus:ring-2"
+                  required
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border text-sm transition-all duration-200"
                   style={{
                     borderColor: "rgba(20, 71, 230, 0.2)",
                     outline: "none",
@@ -124,8 +121,8 @@ const Login = () => {
                     (e.currentTarget.style.borderColor = "var(--primary)")
                   }
                   onBlur={(e) =>
-                  (e.currentTarget.style.borderColor =
-                    "rgba(20, 71, 230, 0.2)")
+                    (e.currentTarget.style.borderColor =
+                      "rgba(20, 71, 230, 0.2)")
                   }
                 />
               </div>
@@ -140,19 +137,22 @@ const Login = () => {
               >
                 Password
               </label>
+
               <div className="relative">
                 <Lock
                   size={18}
                   className="absolute left-3.5 top-1/2 -translate-y-1/2"
                   style={{ color: "var(--primary)" }}
                 />
+
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-11 py-3 rounded-xl border text-sm transition-all duration-200 font-body"
+                  required
+                  className="w-full pl-10 pr-11 py-3 rounded-xl border text-sm transition-all duration-200"
                   style={{
                     borderColor: "rgba(20, 71, 230, 0.2)",
                     outline: "none",
@@ -161,26 +161,31 @@ const Login = () => {
                     (e.currentTarget.style.borderColor = "var(--primary)")
                   }
                   onBlur={(e) =>
-                  (e.currentTarget.style.borderColor =
-                    "rgba(20, 71, 230, 0.2)")
+                    (e.currentTarget.style.borderColor =
+                      "rgba(20, 71, 230, 0.2)")
                   }
                 />
+
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors duration-200"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2"
                   style={{ color: "#9ca3af" }}
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
                 </button>
               </div>
             </div>
 
-            {/* Forgot password link */}
+            {/* Forgot Password */}
             <div className="flex justify-end">
               <Link
                 to="/forgot-password"
-                className="text-sm font-semibold transition-colors duration-200"
+                className="text-sm font-semibold"
                 style={{ color: "var(--primary)" }}
               >
                 Forgot password?
@@ -193,9 +198,7 @@ const Login = () => {
               disabled={loading}
               className="w-full py-3 rounded-xl font-semibold text-sm text-white transition-all duration-200 flex items-center justify-center gap-2 shadow-lg active:scale-95 disabled:opacity-70"
               style={{
-                background: loading
-                  ? "#93a5f5"
-                  : "linear-gradient(135deg, var(--primary))",
+                background: "var(--primary)",
               }}
             >
               {loading ? (
@@ -206,20 +209,14 @@ const Login = () => {
                     fill="none"
                   >
                     <circle
-                      className="opacity-25"
                       cx="12"
                       cy="12"
                       r="10"
                       stroke="currentColor"
                       strokeWidth="4"
                     />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v8H4z"
-                    />
                   </svg>
-                  Signing in…
+                  Signing in...
                 </span>
               ) : (
                 <>
@@ -230,11 +227,19 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Hint */}
-          <p className="text-center text-xs mt-6" style={{ color: "#9ca3af" }}>
-            Demo: <span className="font-semibold">admin@gmail.com</span> /{" "}
-            <span className="font-semibold">123456</span>
-          </p>
+          {/* Demo Accounts */}
+          {/* <div className="mt-6 text-xs text-center text-gray-500">
+            <p>Demo Accounts:</p>
+            <p>
+              <strong>Super Admin:</strong> superadmin@gmail.com / password
+            </p>
+            <p>
+              <strong>Admin:</strong> admin@gmail.com / password
+            </p>
+            <p>
+              <strong>Accountant:</strong> accountant@gmail.com / password
+            </p>
+          </div> */}
         </div>
       </div>
     </div>

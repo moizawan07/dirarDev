@@ -37,10 +37,10 @@ const LoginPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Card */}
-        <div className="bg-white rounded-lg shadow-2xl p-8">
+        <div className="bg-white rounded-lg  p-8">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center w-12 h-12 mx-auto bg-blue-600 rounded-lg mb-4">
@@ -94,7 +94,7 @@ const LoginPage: React.FC = () => {
           </form>
 
           {/* Demo Accounts */}
-          <div className="border-t pt-6">
+          {/* <div className="border-t pt-6">
             <p className="text-sm font-semibold text-gray-700 mb-4">Demo Accounts:</p>
             <div className="space-y-3">
               {demoAccounts.map((account) => (
@@ -111,7 +111,7 @@ const LoginPage: React.FC = () => {
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}
