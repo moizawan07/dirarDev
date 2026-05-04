@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "user": "admin@gmail.com",
+    "assigned_location": "Downtown",
+    "branch": "Branch A",
+    "createdAt": "2024-01-05"
+  },
+  {
+    "id": "2",
+    "user": "admin@gmail.com",
+    "assigned_location": "Midtown",
+    "branch": "Branch A",
+    "createdAt": "2024-01-06"
+  },
+  {
+    "id": "3",
+    "user": "accountant@gmail.com",
+    "assigned_location": "Downtown",
+    "branch": "Branch A",
+    "createdAt": "2024-01-10"
+  },
+  {
+    "id": "4",
+    "user": "admin2@gmail.com",
+    "assigned_location": "Uptown",
+    "branch": "Branch B",
+    "createdAt": "2024-01-15"
+  },
+  {
+    "id": "5",
+    "user": "accountant2@gmail.com",
+    "assigned_location": "Uptown",
+    "branch": "Branch B",
+    "createdAt": "2024-01-20"
+  }
+]

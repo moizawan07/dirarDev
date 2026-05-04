@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Super Admin",
+    "email": "superadmin@gmail.com",
+    "role": "super_admin",
+    "branch": "HQ",
+    "location": "Main",
+    "status": "active",
+    "createdAt": "2024-01-01"
+  },
+  {
+    "id": "2",
+    "name": "Admin User",
+    "email": "admin@gmail.com",
+    "role": "admin",
+    "branch": "Branch A",
+    "location": "Downtown",
+    "status": "active",
+    "createdAt": "2024-01-05"
+  },
+  {
+    "id": "3",
+    "name": "Accountant User",
+    "email": "accountant@gmail.com",
+    "role": "accountant",
+    "branch": "Branch A",
+    "location": "Downtown",
+    "status": "active",
+    "createdAt": "2024-01-10"
+  },
+  {
+    "id": "4",
+    "name": "Admin User 2",
+    "email": "admin2@gmail.com",
+    "role": "admin",
+    "branch": "Branch B",
+    "location": "Uptown",
+    "status": "active",
+    "createdAt": "2024-01-15"
+  },
+  {
+    "id": "5",
+    "name": "Accountant User 2",
+    "email": "accountant2@gmail.com",
+    "role": "accountant",
+    "branch": "Branch B",
+    "location": "Uptown",
+    "status": "active",
+    "createdAt": "2024-01-20"
+  }
+]

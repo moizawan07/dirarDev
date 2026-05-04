@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "title": "Room Booking",
+    "description": "Standard room booking service",
+    "price": 50,
+    "status": "active",
+    "createdAt": "2024-01-01"
+  },
+  {
+    "id": "2",
+    "title": "Deluxe Room",
+    "description": "Luxury deluxe room with premium amenities",
+    "price": 150,
+    "status": "active",
+    "createdAt": "2024-01-01"
+  },
+  {
+    "id": "3",
+    "title": "Suite Room",
+    "description": "Executive suite with living area",
+    "price": 250,
+    "status": "active",
+    "createdAt": "2024-01-01"
+  },
+  {
+    "id": "4",
+    "title": "Event Hall",
+    "description": "Large event hall for conferences and parties",
+    "price": 500,
+    "status": "active",
+    "createdAt": "2024-01-01"
+  },
+  {
+    "id": "5",
+    "title": "Spa Services",
+    "description": "Full spa and wellness services",
+    "price": 100,
+    "status": "active",
+    "createdAt": "2024-01-05"
+  }
+]
