@@ -6,14 +6,12 @@ import { Toaster } from 'react-hot-toast';
 // Layouts
 import DashboardLayout from '../layouts/DashboardLayout';
 
-// Pages
-import LoginPage from '../pages/auth/LoginPage';
 import ProtectedRoute from '../components/ProtectedRoute';
 import {
   SuperAdminDashboard,
-  AdminDashboard,
-  AccountantDashboard,
-} from '../pages/dashboard/DashboardPages';
+  // AdminDashboard,
+  // AccountantDashboard,
+} from '../pages/dashboard/SuperAdminDashboard';
 import UserManagement from '../pages/UserManagement';
 import ServiceManagement from '../pages/ServiceManagement';
 import BookingManagement from '../pages/BookingManagement';
@@ -22,22 +20,7 @@ import Statistics from '../pages/Statistics';
 import Login from '../pages/auth/login';
 
 const AppRouter: React.FC = () => {
-  const { isAuthenticated, getUserRole } = useAuth();
-  const userRole = getUserRole();
-
-  // Dashboard component selection based on role
-  const getDashboardComponent = () => {
-    switch (userRole) {
-      case 'super_admin':
-        return <SuperAdminDashboard />;
-      case 'admin':
-        return <AdminDashboard />;
-      case 'accountant':
-        return <AccountantDashboard />;
-      default:
-        return <SuperAdminDashboard />;
-    }
-  };
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
@@ -81,7 +64,7 @@ const AppRouter: React.FC = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={getDashboardComponent()} />
+          <Route index element={<SuperAdminDashboard />} />
         </Route>
 
         {/* User Management - Super Admin & Admin */}
