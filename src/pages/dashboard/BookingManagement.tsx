@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { bookingsService } from '../services/dataService';
-import type { Booking } from '../types';
+import { bookingsService } from '../../services/dataService';
+import type { Booking } from '../../types';
 import { Trash2, Edit, Plus, FileText, Download } from 'lucide-react';
 
 const BookingManagement: React.FC = () => {

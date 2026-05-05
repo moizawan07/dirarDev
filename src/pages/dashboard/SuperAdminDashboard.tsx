@@ -318,4 +318,3 @@ const SuperAdminDashboard: React.FC = () => {
 };
 
 export default SuperAdminDashboard;
-export { SuperAdminDashboard };

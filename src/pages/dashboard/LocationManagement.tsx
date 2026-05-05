@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { locationsService, usersService } from '../services/dataService';
-import type { Location } from '../types';
+import { useAuth } from '../../context/AuthContext';
+import { locationsService, usersService } from '../../services/dataService';
+import type { Location } from '../../types';
 import { Trash2, Edit, Plus } from 'lucide-react';
 
 const LocationManagement: React.FC = () => {

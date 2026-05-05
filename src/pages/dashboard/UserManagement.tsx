@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { usersService } from '../services/dataService';
-import type { User } from '../types';
+import { useAuth } from '../../context/AuthContext';
+import { usersService } from '../../services/dataService';
+import type { User } from '../../types';
 import { Trash2, Edit, Plus } from 'lucide-react';
 
 const UserManagement: React.FC = () => {

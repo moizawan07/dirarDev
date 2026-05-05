@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { bookingsService, usersService, servicesService } from '../services/dataService';
+import { bookingsService, usersService, servicesService } from '../../services/dataService';
 import {
   LineChart,
   Line,

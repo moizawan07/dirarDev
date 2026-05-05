@@ -7,16 +7,12 @@ import { Toaster } from 'react-hot-toast';
 import DashboardLayout from '../layouts/DashboardLayout';
 
 import ProtectedRoute from '../components/ProtectedRoute';
-import {
-  SuperAdminDashboard,
-  // AdminDashboard,
-  // AccountantDashboard,
-} from '../pages/dashboard/SuperAdminDashboard';
-import UserManagement from '../pages/UserManagement';
-import ServiceManagement from '../pages/ServiceManagement';
-import BookingManagement from '../pages/BookingManagement';
-import LocationManagement from '../pages/LocationManagement';
-import Statistics from '../pages/Statistics';
+import SuperAdminDashboard from '../pages/dashboard/SuperAdminDashboard';
+import UserManagement from '../pages/dashboard/UserManagement';
+import ServiceManagement from '../pages/dashboard/ServiceManagement';
+import BookingManagement from '../pages/dashboard/BookingManagement';
+import LocationManagement from '../pages/dashboard/LocationManagement';
+import Statistics from '../pages/dashboard/Statistics';
 import Login from '../pages/auth/login';
 
 const AppRouter: React.FC = () => {
